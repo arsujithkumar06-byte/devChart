@@ -1,23 +1,51 @@
-# Android Club Collaboration Hub - Kanban System
+# devChart - Android Club Collaboration Hub
 
-A real-time project management and collaboration workspace designed for student clubs. Built on top of the Next.js and MongoDB foundation for the Technical Department Recruitment 2026.
+An interactive, full-stack Kanban task management and collaboration pipeline built for the **Android Club Recruitment Task 2026 (Technical Department)**. This platform features cross-column task advancement, real-time query searching, multi-tier priority filtering, team member assignments, and a nested database comment logger.
 
-## Live Deployment Link
-👉 **[INSERT YOUR VERCEL LIVE URL HERE]**
+---
 
-## Features Implemented
-1. **Core Kanban Transformation:** Converted flat item lists into a dynamic, 3-column system consisting of **To Do**, **In Progress**, and **Done** workflows with instant progressive controls.
-2. **Task Filtering & Search Indexing:** Added a real-time responsive client-side search query feature allowing users to filter board items instantly by character-matching titles or details.
-3. **Advanced Categorization (Priority & Tags):** Extended database records to hold urgency levels (High, Medium, Low) paired with customized project category tracking tags (e.g., #Frontend, #Bug).
+## 🚀 Features Implemented
 
-## Tech Stack
-- **Framework:** Next.js (React)
-- **Database:** MongoDB Atlas via Mongoose ODM
-- **Styling:** Tailwind CSS
+* **Unified Agile Workflow Panel:** A fully integrated screen combining an immediate task generation console with active task tracking lanes (**To Do**, **In Progress**, and **Done**).
+* **State-Driven Column Shifting:** Features dynamic functional controls (`← Back`, `Advance →`, and `Finish ✓`) to handle linear step-by-step task progression across status boundaries.
+* **Instant Query Search Engine:** A client-side text filtering algorithm that matches key-inputs against task titles and descriptions in real time.
+* **Multi-Tier Priority Categorization:** Interactive pill-based controls to slice task views dynamically by structural urgency tags (`High`, `Medium`, `Low`, or `All`).
+* **Team Assignee Mapping:** Hardware and software tasks mapped directly to specific core developers via structural dropdown configurations during creation.
+* **Persistent Threaded Feedback Logs:** Append-only database schemas supporting real-time team commentary logs directly attached to individual card instances.
 
-## Local Installation
-1. Clone this repository: `git clone <your-repo-url>`
-2. Install necessary dependencies: `npm install`
-3. Create a `.env.local` configuration sheet and append your backend string:
-   `MONGODB_URI=your_mongodb_connection_string`
-4. Run locally: `npm run dev`
+---
+
+## 🛠️ Technology Stack Used
+
+* **Frontend Framework:** Next.js (App Router, React 18, TypeScript)
+* **Database Management:** MongoDB Atlas (NoSQL cloud persistence layer)
+* **Object Modeling ODM:** Mongoose (Strict schema validation)
+* **Styling Engine:** Tailwind CSS & Lucide Icons (Responsive layout UI patterns)
+* **Hosting & Deployment Platform:** Vercel (Production server runtime)
+
+---
+
+## 📸 Screenshots of the Working Website
+
+### 1. Main Unified Collaboration Hub
+![Integrated Workspace Layout](https://raw.githubusercontent.com/arsujithkumar06-byte/devChart/main/public/screenshots/dashboard_main.png)
+*(Displays active workflow columns, live input controls, assignment tags, and interactive inline comment logs)*
+
+### 2. Live Task Filtering & Contextual States
+![Contextual Dashboard Interface](https://raw.githubusercontent.com/arsujithkumar06-byte/devChart/main/public/screenshots/dashboard_view.png)
+*(Visual rendering of high-contrast task lanes displaying individual card priorities, metrics, and state management buttons)*
+
+### 3. Creation Workspace Component Page
+![Creation Console Portal Interface](https://raw.githubusercontent.com/arsujithkumar06-byte/devChart/main/public/screenshots/create_task.png)
+*(Dedicated interface routing endpoint built to handle schema ingestion structures)*
+
+---
+
+## ⚙️ Setup Instructions
+
+Follow these instructions to configure and run the repository locally:
+
+### 1. Clone the Code Repository
+```bash
+git clone [https://github.com/arsujithkumar06-byte/devChart.git](https://github.com/arsujithkumar06-byte/devChart.git)
+cd devChart
