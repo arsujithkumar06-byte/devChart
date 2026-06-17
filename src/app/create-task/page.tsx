@@ -8,7 +8,7 @@ const CreateTask = () => {
 const [title,setTitle] = useState("");
 const [description,setDescription] = useState("");
 const [priority,setPriority] = useState("low");
-
+const [assignedTo, setAssignedTo] = useState("Unassigned");
 async function handleSubmit(event: React.FormEvent){
     event.preventDefault();
 
