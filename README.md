@@ -49,3 +49,8 @@ Follow these instructions to configure and run the repository locally:
 ```bash
 git clone [https://github.com/arsujithkumar06-byte/devChart.git](https://github.com/arsujithkumar06-byte/devChart.git)
 cd devChart
+
+## ⚠️ Known Limitations
+* **Ephemeral State Sync on Hard Reloads:** While task creation and column updates persist perfectly across the cloud network, the application currently relies on synchronous client-side routing state to balance column configurations. Performing a hard browser refresh can occasionally cause a brief visual delay while fetching the latest statuses from the MongoDB cluster.
+* **Absence of Server-Side Form Validation:** The client application enforces basic frontend validation (such as preventing completely blank input submissions). However, the backend API endpoints currently lack independent request body validation schemas to sanitize payloads before database ingestion.
+* **Open Mutation Control Rules:** The platform is designed as an open internal collaboration tool for the club's sprint teams. As a result, it does not include role-based authentication layers or restricted access-control guards—meaning any user accessing the deployed URL has global permission to append comments, modify task cards, or shift lane columns.
