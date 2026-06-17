@@ -3,13 +3,13 @@
 import React from "react";
 
 type TaskCardProps = {
-    id: string;            // Passed down to look up the card for comments
+    id: string;
     title: string;
     description: string;
     priority: string;
     completion: boolean;
-    assignedTo?: string;   // Displays the person working on it
-    comments?: string[];   // Array of saved feedback notes
+    assignedTo?: string;
+    comments?: string[];
 };
 
 const TaskCard = ({ id, title, description, priority, completion, assignedTo, comments = [] }: TaskCardProps) => {
@@ -20,10 +20,27 @@ const TaskCard = ({ id, title, description, priority, completion, assignedTo, co
             ? "bg-yellow-400"
             : "bg-green-400";
 
+    // Core handler to dynamically shift task positions across your columns
+    async function updateTaskStatus(newStatus: string) {
+        try {
+            const res = await fetch(`/api/task/${id}`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ status: newStatus })
+            });
+            
+            if (res.ok) {
+                window.location.reload(); // Instantly visually shifts columns
+            }
+        } catch (err) {
+            console.error("Failed moving task column position:", err);
+        }
+    }
+
     return (
-        <div className={`flex h-auto w-64 self-start flex-col rounded-2xl border-2 border-black overflow-hidden shrink-0 ${bgClass}`}>
+        <div className={`flex h-auto w-full self-start flex-col rounded-2xl border-2 border-black overflow-hidden shrink-0 ${bgClass}`}>
             {/* Card Header Title */}
-            <div className="bg-black p-3 text-xl font-bold text-teal-200">
+            <div className="bg-black p-3 text-lg font-bold text-teal-200">
                 <h2>{title}</h2>
             </div>
 
@@ -33,16 +50,14 @@ const TaskCard = ({ id, title, description, priority, completion, assignedTo, co
                     {description}
                 </div>
 
-                {/* Collaboration Footer Hub */}
+                {/* Integration Feature Hub (Assignee + Comments Tracker) */}
                 <div className="rounded-xl border border-black bg-black p-3 text-xs text-gray-300">
-                    {/* Feature 1: Assignee Tag */}
                     <div className="mb-2 text-teal-200 font-medium">
                         👤 Assignee: <span className="text-white font-semibold">{assignedTo || "Unassigned"}</span>
                     </div>
 
                     <hr className="border-gray-800 my-2" />
 
-                    {/* Feature 2: Comments Log Feed */}
                     <div className="mb-2 text-teal-200 font-medium">
                         💬 Comments ({comments.length})
                     </div>
@@ -57,7 +72,6 @@ const TaskCard = ({ id, title, description, priority, completion, assignedTo, co
                         </div>
                     )}
 
-                    {/* Interactive Enter-Key Input Box */}
                     <input 
                         type="text" 
                         placeholder="Type a comment & press Enter..." 
@@ -65,29 +79,71 @@ const TaskCard = ({ id, title, description, priority, completion, assignedTo, co
                             if (e.key === 'Enter' && e.currentTarget.value.trim() !== '') {
                                 const inputField = e.currentTarget;
                                 const noteValue = inputField.value.trim();
-                                
-                                // Clear input field visually right away
                                 inputField.value = '';
                                 
                                 try {
-                                    // Calls your update patch endpoint
                                     const res = await fetch(`/api/task/${id}`, {
                                         method: 'PATCH',
                                         headers: { 'Content-Type': 'application/json' },
                                         body: JSON.stringify({ comment: noteValue })
                                     });
-                                    
-                                    if (res.ok) {
-                                        window.location.reload(); // Refresh to see your new comment appear
-                                    }
+                                    if (res.ok) window.location.reload();
                                 } catch (err) {
-                                    console.error("Failed adding comment", err);
+                                    console.error(err);
                                 }
                             }
                         }}
                         className="w-full p-2 bg-gray-950 text-gray-100 placeholder-gray-500 rounded border border-gray-700 text-[11px] focus:outline-none focus:border-teal-400"
                     />
                 </div>
+
+                {/* Restored Pipeline Controls Row */}
+                <div className="flex justify-between items-center mt-1 pt-1 text-xs font-black text-black">
+                    {/* Back Button logic */}
+                    {completion ? (
+                        <button 
+                            type="button" 
+                            onClick={() => updateTaskStatus('in-progress')}
+                            className="hover:underline transition-all"
+                        >
+                            ← Back
+                        </button>
+                    ) : (
+                        // If it's not complete, check if it's currently on an active secondary lane
+                        <button 
+                            type="button" 
+                            onClick={() => updateTaskStatus('todo')}
+                            className="hover:underline transition-all opacity-80 hover:opacity-100"
+                        >
+                            ← Back
+                        </button>
+                    )}
+
+                    {/* Advance / Finish Button logic */}
+                    {!completion ? (
+                        <div className="flex gap-3 ml-auto">
+                            <button 
+                                type="button" 
+                                onClick={() => updateTaskStatus('in-progress')}
+                                className="hover:underline transition-all"
+                            >
+                                Advance →
+                            </button>
+                            <button 
+                                type="button" 
+                                onClick={() => updateTaskStatus('done')}
+                                className="bg-black text-white px-2.5 py-1 rounded-md text-[10px] hover:bg-gray-800 transition-colors"
+                            >
+                                Finish ✓
+                            </button>
+                        </div>
+                    ) : (
+                        <span className="text-emerald-950 text-[10px] uppercase font-mono ml-auto font-bold tracking-wider">
+                            ✓ Task Completed
+                        </span>
+                    )}
+                </div>
+
             </div>
         </div>
     );
