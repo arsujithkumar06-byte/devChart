@@ -23,7 +23,8 @@ const TaskCard = ({ id, title, description, priority, completion, assignedTo, co
     // Core handler to dynamically shift task positions across your columns
     async function updateTaskStatus(newStatus: string) {
         try {
-            const res = await fetch(`/api/task/${id}`, {
+            // Fixed endpoint typo by changing /api/task/ to /api/tasks/
+            const res = await fetch(`/api/tasks/${id}`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ status: newStatus })
@@ -82,7 +83,8 @@ const TaskCard = ({ id, title, description, priority, completion, assignedTo, co
                                 inputField.value = '';
                                 
                                 try {
-                                    const res = await fetch(`/api/task/${id}`, {
+                                    // Fixed endpoint typo here as well to use plural /api/tasks/
+                                    const res = await fetch(`/api/tasks/${id}`, {
                                         method: 'PATCH',
                                         headers: { 'Content-Type': 'application/json' },
                                         body: JSON.stringify({ comment: noteValue })
@@ -109,7 +111,6 @@ const TaskCard = ({ id, title, description, priority, completion, assignedTo, co
                             ← Back
                         </button>
                     ) : (
-                        // If it's not complete, check if it's currently on an active secondary lane
                         <button 
                             type="button" 
                             onClick={() => updateTaskStatus('todo')}
